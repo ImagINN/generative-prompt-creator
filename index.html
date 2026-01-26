@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Gemini AI için görsel ve video prompt oluşturucu. Kolayca yaratıcı promptlar oluşturun.">
-    <title>Prompt Creator | Gemini AI için Görsel & Video Prompt Oluşturucu</title>
+    <meta name="description"
+        content="Gemini AI için profesyonel görsel prompt oluşturucu. Master görsel ile optimize edilmiş promptlar oluşturun.">
+    <title>ImagINN | Profesyonel Prompt Oluşturucu</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <!-- Background Animation -->
     <div class="bg-animation">
@@ -23,12 +27,15 @@
         <div class="logo">
             <div class="logo-icon">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
                 </svg>
             </div>
-            <span class="logo-text">Prompt Creator</span>
+            <span class="logo-text">ImagINN</span>
         </div>
         <div class="header-badge">
             <span class="badge-dot"></span>
@@ -41,296 +48,499 @@
         <!-- Hero Section -->
         <section class="hero">
             <h1 class="hero-title">
-                <span class="gradient-text">Yaratıcı</span> Promptlarınızı
+                <span class="gradient-text">Profesyonel</span> Promptlarınızı
                 <br>Kolayca Oluşturun
             </h1>
             <p class="hero-subtitle">
-                Görsel veya video üretimi için mükemmel promptlar oluşturun ve 
-                tek tıkla Gemini AI'a gönderin.
+                Master görsel ile optimize edilmiş veya sıfırdan mükemmel promptlar oluşturun.
             </p>
         </section>
 
-        <!-- Mode Switch -->
-        <div class="mode-switch-container">
-            <div class="mode-switch">
-                <input type="checkbox" id="modeSwitch" class="mode-switch-input">
-                <label for="modeSwitch" class="mode-switch-label">
-                    <div class="mode-option mode-image">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
-                            <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
-                            <path d="M21 15L16 10L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span>Görsel</span>
-                    </div>
-                    <div class="mode-option mode-video">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
-                            <path d="M10 9L15 12L10 15V9Z" fill="currentColor"/>
-                        </svg>
-                        <span>Video</span>
-                    </div>
-                    <div class="switch-slider"></div>
-                </label>
-            </div>
-            <p class="mode-description" id="modeDescription">
-                🖼️ Görsel üretim modu aktif
-            </p>
-        </div>
-
-        <!-- Prompt Builder Card -->
-        <div class="builder-card">
-            <div class="card-header">
-                <h2 class="card-title">Prompt Parametreleri</h2>
-                <span class="card-badge" id="modeBadge">Görsel Modu</span>
-            </div>
-
-            <form id="promptForm" class="prompt-form">
-                <!-- Subject -->
-                <div class="form-group">
-                    <label for="subject" class="form-label">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z" stroke="currentColor" stroke-width="2"/>
-                            <path d="M8.21 13.89L7 23L12 20L17 23L15.79 13.88" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Konu / Ana Obje
-                    </label>
-                    <input type="text" id="subject" class="form-input" placeholder="Örn: Bir astronot, Dağ manzarası, Fütüristik şehir...">
-                </div>
-
-                <!-- Style -->
-                <div class="form-group">
-                    <label for="style" class="form-label">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Stil
-                    </label>
-                    <select id="style" class="form-select">
-                        <option value="">Bir stil seçin...</option>
-                        <option value="realistic">Gerçekçi (Realistic)</option>
-                        <option value="anime">Anime</option>
-                        <option value="cartoon">Karikatür (Cartoon)</option>
-                        <option value="oil-painting">Yağlı Boya (Oil Painting)</option>
-                        <option value="watercolor">Suluboya (Watercolor)</option>
-                        <option value="digital-art">Dijital Sanat</option>
-                        <option value="3d-render">3D Render</option>
-                        <option value="pixel-art">Pixel Art</option>
-                        <option value="cyberpunk">Cyberpunk</option>
-                        <option value="fantasy">Fantastik</option>
-                        <option value="minimalist">Minimalist</option>
-                        <option value="vintage">Vintage / Retro</option>
-                        <option value="cinematic">Sinematik</option>
-                        <option value="photographic">Fotoğrafik</option>
-                    </select>
-                </div>
-
-                <!-- Mood/Atmosphere -->
-                <div class="form-group">
-                    <label for="mood" class="form-label">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                            <path d="M8 14C8.5 15.5 10 17 12 17C14 17 15.5 15.5 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            <circle cx="9" cy="9" r="1" fill="currentColor"/>
-                            <circle cx="15" cy="9" r="1" fill="currentColor"/>
-                        </svg>
-                        Atmosfer / Ruh Hali
-                    </label>
-                    <select id="mood" class="form-select">
-                        <option value="">Bir atmosfer seçin...</option>
-                        <option value="dramatic">Dramatik</option>
-                        <option value="peaceful">Huzurlu</option>
-                        <option value="mysterious">Gizemli</option>
-                        <option value="energetic">Enerjik</option>
-                        <option value="melancholic">Melankolik</option>
-                        <option value="joyful">Neşeli</option>
-                        <option value="dark">Karanlık</option>
-                        <option value="bright">Aydınlık</option>
-                        <option value="ethereal">Eterik / Rüya gibi</option>
-                        <option value="intense">Yoğun</option>
-                    </select>
-                </div>
-
-                <!-- Lighting -->
-                <div class="form-group">
-                    <label for="lighting" class="form-label">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
-                            <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                        Işıklandırma
-                    </label>
-                    <select id="lighting" class="form-select">
-                        <option value="">Bir ışıklandırma seçin...</option>
-                        <option value="golden-hour">Altın Saat (Golden Hour)</option>
-                        <option value="blue-hour">Mavi Saat</option>
-                        <option value="studio">Stüdyo Işığı</option>
-                        <option value="natural">Doğal Işık</option>
-                        <option value="neon">Neon</option>
-                        <option value="moonlight">Ay Işığı</option>
-                        <option value="dramatic">Dramatik Işık</option>
-                        <option value="soft">Yumuşak Işık</option>
-                        <option value="backlit">Arka Aydınlatma</option>
-                        <option value="volumetric">Volumetrik Işık</option>
-                    </select>
-                </div>
-
-                <!-- Camera/Composition (for images) / Duration (for videos) -->
-                <div class="form-group" id="cameraGroup">
-                    <label for="camera" class="form-label">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M23 19C23 19.5304 22.7893 20.0391 22.4142 20.4142C22.0391 20.7893 21.5304 21 21 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8C1 7.46957 1.21071 6.96086 1.58579 6.58579C1.96086 6.21071 2.46957 6 3 6H7L9 3H15L17 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                        Kamera Açısı / Kompozisyon
-                    </label>
-                    <select id="camera" class="form-select">
-                        <option value="">Bir açı seçin...</option>
-                        <option value="close-up">Yakın Çekim (Close-up)</option>
-                        <option value="wide-shot">Geniş Açı (Wide Shot)</option>
-                        <option value="birds-eye">Kuşbakışı (Bird's Eye)</option>
-                        <option value="low-angle">Alçak Açı (Low Angle)</option>
-                        <option value="portrait">Portre</option>
-                        <option value="landscape">Manzara</option>
-                        <option value="macro">Makro</option>
-                        <option value="dutch-angle">Dutch Angle</option>
-                        <option value="symmetrical">Simetrik</option>
-                        <option value="dynamic">Dinamik</option>
-                    </select>
-                </div>
-
-                <!-- Video-specific options -->
-                <div class="form-group video-only" id="motionGroup">
-                    <label for="motion" class="form-label">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Hareket / Kamera Hareketi
-                    </label>
-                    <select id="motion" class="form-select">
-                        <option value="">Bir hareket seçin...</option>
-                        <option value="zoom-in">Zoom In</option>
-                        <option value="zoom-out">Zoom Out</option>
-                        <option value="pan-left">Pan Left</option>
-                        <option value="pan-right">Pan Right</option>
-                        <option value="tilt-up">Tilt Up</option>
-                        <option value="tilt-down">Tilt Down</option>
-                        <option value="tracking">Tracking Shot</option>
-                        <option value="orbit">Orbit / Dönen Kamera</option>
-                        <option value="static">Sabit</option>
-                        <option value="slow-motion">Ağır Çekim</option>
-                        <option value="time-lapse">Time-lapse</option>
-                    </select>
-                </div>
-
-                <!-- Additional Details -->
-                <div class="form-group">
-                    <label for="details" class="form-label">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M14 2V8H20M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Ek Detaylar
-                    </label>
-                    <textarea id="details" class="form-textarea" placeholder="Eklemek istediğiniz özel detaylar... Örn: Yağmurlu hava, güneş batımı, retro filtreli..."></textarea>
-                </div>
-
-                <!-- Quality Tags -->
-                <div class="form-group">
-                    <label class="form-label">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20.59 13.41L13.42 20.58C13.2343 20.766 13.0137 20.9135 12.7709 21.0141C12.5281 21.1148 12.2678 21.1666 12.005 21.1666C11.7422 21.1666 11.4819 21.1148 11.2391 21.0141C10.9963 20.9135 10.7757 20.766 10.59 20.58L2 12V2H12L20.59 10.59C20.9625 10.9647 21.1716 11.4716 21.1716 12C21.1716 12.5284 20.9625 13.0353 20.59 13.41Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="7" cy="7" r="1" fill="currentColor"/>
-                        </svg>
-                        Kalite Etiketleri
-                    </label>
-                    <div class="tags-container">
-                        <label class="tag-chip">
-                            <input type="checkbox" value="high quality" checked>
-                            <span>Yüksek Kalite</span>
-                        </label>
-                        <label class="tag-chip">
-                            <input type="checkbox" value="detailed">
-                            <span>Detaylı</span>
-                        </label>
-                        <label class="tag-chip">
-                            <input type="checkbox" value="4K">
-                            <span>4K</span>
-                        </label>
-                        <label class="tag-chip">
-                            <input type="checkbox" value="HDR">
-                            <span>HDR</span>
-                        </label>
-                        <label class="tag-chip">
-                            <input type="checkbox" value="professional">
-                            <span>Profesyonel</span>
-                        </label>
-                        <label class="tag-chip">
-                            <input type="checkbox" value="award-winning">
-                            <span>Ödüllü</span>
-                        </label>
-                        <label class="tag-chip">
-                            <input type="checkbox" value="trending on artstation">
-                            <span>Trending</span>
-                        </label>
-                        <label class="tag-chip">
-                            <input type="checkbox" value="masterpiece">
-                            <span>Başyapıt</span>
-                        </label>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <!-- Preview Card -->
-        <div class="preview-card">
-            <div class="card-header">
-                <h2 class="card-title">Oluşturulan Prompt</h2>
-                <button type="button" id="copyBtn" class="copy-btn">
+        <!-- Master Image Upload Section -->
+        <section class="upload-section">
+            <div class="section-header">
+                <h2 class="section-title">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
-                        <path d="M5 15H4C2.89543 15 2 14.1046 2 13V4C2 2.89543 2.89543 2 4 2H13C14.1046 2 15 2.89543 15 4V5" stroke="currentColor" stroke-width="2"/>
+                        <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+                        <path d="M21 15L16 10L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
-                    Kopyala
+                    Master Görsel (Opsiyonel)
+                </h2>
+                <button type="button" class="info-btn"
+                    data-tooltip="Master görsel yükleyerek, oluşturulacak promptun bu görsele benzer bir sonuç üretmesi için optimize edilmesini sağlayabilirsiniz. Görsel yüklemezseniz prompt sadece seçimlerinize göre oluşturulur.">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                        <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
                 </button>
             </div>
-            <div class="prompt-preview" id="promptPreview">
-                <p class="preview-placeholder">Prompt oluşturmak için yukarıdaki parametreleri doldurun...</p>
+            <div class="upload-area" id="uploadArea">
+                <input type="file" id="masterImage" accept="image/*" class="file-input">
+                <div class="upload-content" id="uploadContent">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <p class="upload-text">Görsel yüklemek için tıklayın veya sürükleyin</p>
+                    <span class="upload-hint">PNG, JPG veya WEBP (maks. 10MB)</span>
+                </div>
+                <div class="image-preview" id="imagePreview">
+                    <img id="previewImg" src="" alt="Yüklenen görsel">
+                    <button type="button" class="remove-image-btn" id="removeImage">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Prompt Builder -->
+        <section class="builder-section">
+            <form id="promptForm" class="prompt-form">
+
+                <!-- Ana Konu -->
+                <div class="form-group full-width">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z"
+                                    stroke="currentColor" stroke-width="2" />
+                                <path d="M8.21 13.89L7 23L12 20L17 23L15.79 13.88" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            Ana Konu (Subject)
+                        </h2>
+                        <button type="button" class="info-btn"
+                            data-tooltip="Görüntünün merkezinde olmasını istediğiniz ana konuyu detaylı şekilde tanımlayın. Örn: 'Uzun siyah saçlı, yeşil gözlü genç bir kadın' veya 'Kar kaplı dağların önünde duran antik bir kale'">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <textarea id="subject" class="form-textarea"
+                        placeholder="Görüntünün ana konusunu detaylıca tanımlayın...&#10;Örn: Uzun siyah saçlı, yeşil gözlü genç bir kadın, beyaz ipek elbise giymiş, sakin ve gizemli bir ifadeyle..."></textarea>
+                </div>
+
+                <!-- Ortam & Atmosfer -->
+                <div class="form-group full-width">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M3 12L5 10M5 10L12 3L19 10M5 10V20C5 20.5523 5.44772 21 6 21H9M19 10L21 12M19 10V20C19 20.5523 18.5523 21 18 21H15M9 21C9.55228 21 10 20.5523 10 20V16C10 15.4477 10.4477 15 11 15H13C13.5523 15 14 15.4477 14 16V20C14 20.5523 14.4477 21 15 21M9 21H15"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            Ortam & Atmosfer
+                        </h2>
+                        <button type="button" class="info-btn"
+                            data-tooltip="Sahnenin geçtiği mekanı ve genel atmosferi tanımlayın. Arka plan detayları, ruh hali ve ortam özellikleri buraya yazılmalı.">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <textarea id="environment" class="form-textarea"
+                        placeholder="Sahnenin geçtiği mekanı ve atmosferi tanımlayın...&#10;Örn: Antik bir ormanın derinliklerinde, sisli ve gizemli bir atmosfer, arka planda dev çam ağaçları ve yosun kaplı kayalar..."></textarea>
+                </div>
+
+                <!-- Aspect Ratio -->
+                <div class="form-group">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor"
+                                    stroke-width="2" />
+                                <path d="M8 21H16M12 17V21" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                            Aspect Ratio
+                        </h2>
+                        <button type="button" class="info-btn"
+                            data-tooltip="Görüntünün en-boy oranını belirler. 1:1 kare format (Instagram), 16:9 geniş ekran (YouTube), 9:16 dikey format (Stories/Reels), 4:3 klasik format için uygundur.">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="option-grid" data-group="aspectRatio">
+                        <button type="button" class="option-btn" data-value="1:1">1:1</button>
+                        <button type="button" class="option-btn" data-value="4:3">4:3</button>
+                        <button type="button" class="option-btn" data-value="3:4">3:4</button>
+                        <button type="button" class="option-btn" data-value="16:9">16:9</button>
+                        <button type="button" class="option-btn" data-value="9:16">9:16</button>
+                        <button type="button" class="option-btn" data-value="21:9">21:9</button>
+                    </div>
+                </div>
+
+                <!-- Kamera Açısı -->
+                <div class="form-group">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M23 19C23 19.5304 22.7893 20.0391 22.4142 20.4142C22.0391 20.7893 21.5304 21 21 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8C1 7.46957 1.21071 6.96086 1.58579 6.58579C1.96086 6.21071 2.46957 6 3 6H7L9 3H15L17 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V19Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <circle cx="12" cy="13" r="4" stroke="currentColor" stroke-width="2" />
+                            </svg>
+                            Kamera Açısı
+                        </h2>
+                        <button type="button" class="info-btn"
+                            data-tooltip="Kameranın konuya baktığı açıyı belirler. Göz hizası doğal ve samimi, alt açı güç ve büyüklük hissi verir, üst açı ise kırılganlık veya bağlam sağlar.">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="option-grid cols-4" data-group="cameraAngle">
+                        <button type="button" class="option-btn" data-value="eye-level">Göz Hizası</button>
+                        <button type="button" class="option-btn" data-value="shoulder-level">Omuz Hizası</button>
+                        <button type="button" class="option-btn" data-value="waist-level">Bel Hizası</button>
+                        <button type="button" class="option-btn" data-value="knee-level">Diz Hizası</button>
+                        <button type="button" class="option-btn" data-value="ground-level">Yer Seviyesi</button>
+                        <button type="button" class="option-btn" data-value="worms-eye">Solucan Bakışı</button>
+                        <button type="button" class="option-btn" data-value="low-angle">Alt Açı</button>
+                        <button type="button" class="option-btn" data-value="high-angle">Üst Açı</button>
+                        <button type="button" class="option-btn" data-value="birds-eye">Kuş Bakışı</button>
+                        <button type="button" class="option-btn" data-value="drone-shot">Drone Çekimi</button>
+                        <button type="button" class="option-btn" data-value="satellite">Uydu Bakışı</button>
+                        <button type="button" class="option-btn" data-value="dutch-angle">Eğik Açı</button>
+                    </div>
+                </div>
+
+                <!-- Çekim Ölçeği -->
+                <div class="form-group">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" />
+                                <path d="M4 20C4 17 7 14 12 14C17 14 20 17 20 20" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                            Çekim Ölçeği
+                        </h2>
+                        <button type="button" class="info-btn"
+                            data-tooltip="Konunun kadraja ne kadar dahil olduğunu belirler. Yakın çekim detay ve duygu, boy plan tam vücut, genel plan ise ortam ve bağlam gösterir.">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="option-grid cols-4" data-group="shotScale">
+                        <button type="button" class="option-btn" data-value="extreme-close-up">Aşırı Yakın
+                            (Detay)</button>
+                        <button type="button" class="option-btn" data-value="close-up">Yakın Çekim (Yüz)</button>
+                        <button type="button" class="option-btn" data-value="medium-close-up">Omuz Plan</button>
+                        <button type="button" class="option-btn" data-value="medium-shot">Bel Plan</button>
+                        <button type="button" class="option-btn" data-value="medium-full">Diz Plan</button>
+                        <button type="button" class="option-btn" data-value="full-shot">Boy Plan (Tam)</button>
+                        <button type="button" class="option-btn" data-value="wide-shot">Genel Plan</button>
+                        <button type="button" class="option-btn" data-value="extreme-wide">Çok Geniş Plan</button>
+                    </div>
+                </div>
+
+                <!-- Lens Tercihi -->
+                <div class="form-group">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+                                <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" />
+                                <circle cx="12" cy="12" r="2" fill="currentColor" />
+                            </svg>
+                            Lens Tercihi
+                        </h2>
+                        <button type="button" class="info-btn"
+                            data-tooltip="Kullanılacak lens türünü belirler. Geniş açı (14-35mm) mekan ve perspektif, standart (50mm) doğal görünüm, telefoto (85-200mm) portre ve sıkıştırma efekti sağlar.">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="option-grid cols-4" data-group="lens">
+                        <button type="button" class="option-btn" data-value="14mm-ultra-wide">14mm Ultra Geniş</button>
+                        <button type="button" class="option-btn" data-value="24mm-wide">24mm Geniş Açı</button>
+                        <button type="button" class="option-btn" data-value="35mm-wide">35mm Geniş</button>
+                        <button type="button" class="option-btn" data-value="50mm-natural">50mm Doğal</button>
+                        <button type="button" class="option-btn" data-value="85mm-portrait">85mm Portre</button>
+                        <button type="button" class="option-btn" data-value="135mm-tele">135mm Telefoto</button>
+                        <button type="button" class="option-btn" data-value="200mm-tele">200mm Telefoto</button>
+                        <button type="button" class="option-btn" data-value="macro">Makro Lens</button>
+                    </div>
+                </div>
+
+                <!-- Stil -->
+                <div class="form-group">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            Stil
+                        </h2>
+                        <button type="button" class="info-btn"
+                            data-tooltip="Görselin sanatsal stilini belirler. Photorealistic fotoğraf gerçekliği, Anime Japon çizgi film stili, Oil Painting klasik yağlı boya efekti verir.">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="option-grid cols-4" data-group="style">
+                        <button type="button" class="option-btn" data-value="photorealistic">Photorealistic</button>
+                        <button type="button" class="option-btn" data-value="cinematic">Sinematik</button>
+                        <button type="button" class="option-btn" data-value="anime">Anime</button>
+                        <button type="button" class="option-btn" data-value="manga">Manga</button>
+                        <button type="button" class="option-btn" data-value="oil-painting">Yağlı Boya</button>
+                        <button type="button" class="option-btn" data-value="watercolor">Suluboya</button>
+                        <button type="button" class="option-btn" data-value="digital-art">Dijital Sanat</button>
+                        <button type="button" class="option-btn" data-value="3d-render">3D Render</button>
+                        <button type="button" class="option-btn" data-value="pixel-art">Pixel Art</button>
+                        <button type="button" class="option-btn" data-value="cyberpunk">Cyberpunk</button>
+                        <button type="button" class="option-btn" data-value="fantasy">Fantastik</button>
+                        <button type="button" class="option-btn" data-value="minimalist">Minimalist</button>
+                        <button type="button" class="option-btn" data-value="vintage">Vintage / Retro</button>
+                        <button type="button" class="option-btn" data-value="sketch">Eskiz / Çizim</button>
+                        <button type="button" class="option-btn" data-value="comic-book">Çizgi Roman</button>
+                        <button type="button" class="option-btn" data-value="pop-art">Pop Art</button>
+                    </div>
+                </div>
+
+                <!-- Işıklandırma -->
+                <div class="form-group">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" />
+                                <path
+                                    d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                            Işıklandırma
+                        </h2>
+                        <button type="button" class="info-btn"
+                            data-tooltip="Sahnenin aydınlatma türünü belirler. Golden hour sıcak tonlar, Studio profesyonel aydınlatma, Neon canlı renkler, Moonlight romantik atmosfer yaratır.">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="option-grid cols-4" data-group="lighting">
+                        <button type="button" class="option-btn" data-value="natural">Doğal Işık</button>
+                        <button type="button" class="option-btn" data-value="golden-hour">Golden Hour</button>
+                        <button type="button" class="option-btn" data-value="blue-hour">Blue Hour</button>
+                        <button type="button" class="option-btn" data-value="studio">Stüdyo Işığı</button>
+                        <button type="button" class="option-btn" data-value="soft-light">Yumuşak Işık</button>
+                        <button type="button" class="option-btn" data-value="hard-light">Sert Işık</button>
+                        <button type="button" class="option-btn" data-value="backlit">Arka Aydınlatma</button>
+                        <button type="button" class="option-btn" data-value="rim-light">Kenar Işığı</button>
+                        <button type="button" class="option-btn" data-value="neon">Neon</button>
+                        <button type="button" class="option-btn" data-value="moonlight">Ay Işığı</button>
+                        <button type="button" class="option-btn" data-value="candlelight">Mum Işığı</button>
+                        <button type="button" class="option-btn" data-value="volumetric">Volumetrik</button>
+                        <button type="button" class="option-btn" data-value="dramatic">Dramatik</button>
+                        <button type="button" class="option-btn" data-value="chiaroscuro">Chiaroscuro</button>
+                        <button type="button" class="option-btn" data-value="silhouette">Silüet</button>
+                        <button type="button" class="option-btn" data-value="foggy">Sisli</button>
+                    </div>
+                </div>
+
+                <!-- Renk Paleti -->
+                <div class="form-group">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path
+                                    d="M12 2C12 2 14.5 5 14.5 8.5C14.5 12 12 14 12 14C12 14 9.5 12 9.5 8.5C9.5 5 12 2 12 2Z"
+                                    fill="currentColor" />
+                            </svg>
+                            Renk Paleti
+                        </h2>
+                        <button type="button" class="info-btn"
+                            data-tooltip="Görselin genel renk tonunu ve kontrastını belirler. Pastel tonlar yumuşak ve sakin, yüksek kontrast güçlü ve dikkat çekici, monokrom ise artistik görünüm sağlar.">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="option-grid cols-4" data-group="colorPalette">
+                        <button type="button" class="option-btn" data-value="pastel">Pastel Tonlar</button>
+                        <button type="button" class="option-btn" data-value="vibrant">Canlı Renkler</button>
+                        <button type="button" class="option-btn" data-value="muted">Soluk Tonlar</button>
+                        <button type="button" class="option-btn" data-value="earth-tones">Toprak Tonları</button>
+                        <button type="button" class="option-btn" data-value="monochrome">Monokrom</button>
+                        <button type="button" class="option-btn" data-value="black-white">Siyah & Beyaz</button>
+                        <button type="button" class="option-btn" data-value="sepia">Sepia</button>
+                        <button type="button" class="option-btn" data-value="warm">Sıcak Tonlar</button>
+                        <button type="button" class="option-btn" data-value="cool">Soğuk Tonlar</button>
+                        <button type="button" class="option-btn" data-value="teal-orange">Teal & Orange</button>
+                        <button type="button" class="option-btn" data-value="high-contrast">Yüksek Kontrast</button>
+                        <button type="button" class="option-btn" data-value="low-contrast">Düşük Kontrast</button>
+                        <button type="button" class="option-btn" data-value="neon-colors">Neon Renkler</button>
+                        <button type="button" class="option-btn" data-value="gradient">Gradyan</button>
+                        <button type="button" class="option-btn" data-value="duotone">Duotone</button>
+                        <button type="button" class="option-btn" data-value="tritone">Tritone</button>
+                    </div>
+                </div>
+
+                <!-- Typography -->
+                <div class="form-group full-width">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 7V4H20V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                <path d="M9 20H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                <path d="M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                            Metin / Typography (Opsiyonel)
+                        </h2>
+                        <button type="button" class="info-btn"
+                            data-tooltip="Görselin içinde görünmesini istediğiniz metni buraya yazın. AI metin oluşturmada hata yapabilir, bu yüzden kısa ve basit metinler tercih edin.">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <input type="text" id="typography" class="form-input"
+                        placeholder="Görselde görünmesini istediğiniz metin... (Örn: 'DREAM BIG')">
+                </div>
+
+                <!-- Manuel Komutlar -->
+                <div class="form-group full-width">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M14 2V8H20M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            Manuel Komutlar (Opsiyonel)
+                        </h2>
+                        <button type="button" class="info-btn"
+                            data-tooltip="Yukarıdaki seçeneklerde olmayan özel isteklerinizi buraya yazabilirsiniz. Örn: 'Yağmur damlaları', 'Lens flare efekti', 'Film grain' gibi ek detaylar.">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 16V12M12 8H12.01" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <textarea id="manualCommands" class="form-textarea"
+                        placeholder="Ek detaylar ve özel istekleriniz...&#10;Örn: Yağmur damlaları, lens flare, film grain, bokeh efekti, depth of field..."></textarea>
+                </div>
+
+            </form>
+        </section>
+
+        <!-- Preview Card -->
+        <section class="preview-section">
+            <div class="preview-card">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        Oluşturulan Prompt
+                    </h2>
+                    <button type="button" id="copyBtn" class="copy-btn">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2" />
+                            <path
+                                d="M5 15H4C2.89543 15 2 14.1046 2 13V4C2 2.89543 2.89543 2 4 2H13C14.1046 2 15 2.89543 15 4V5"
+                                stroke="currentColor" stroke-width="2" />
+                        </svg>
+                        Kopyala
+                    </button>
+                </div>
+                <div class="prompt-preview" id="promptPreview">
+                    <p class="preview-placeholder">Prompt oluşturmak için yukarıdaki parametreleri doldurun...</p>
+                </div>
+            </div>
+        </section>
 
         <!-- Action Button -->
         <div class="action-container">
             <button type="button" id="sendToGemini" class="gemini-btn" disabled>
                 <div class="btn-content">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="gemini-icon">
-                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                     <span id="btnText">Gemini'ye Gönder</span>
                 </div>
                 <div class="btn-shine"></div>
             </button>
-            <p class="action-hint" id="actionHint">
-                <span id="modeHint">🖼️ Görsel üretim ayarları ile açılacak</span>
+            <p class="action-hint">
+                🖼️ Görsel üretim ayarları ile Gemini'ye yönlendirileceksiniz
             </p>
         </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <p>Gemini AI ile güçlendirilmiştir ✨</p>
+        <p>ImagINN - Gemini AI ile güçlendirilmiştir ✨</p>
     </footer>
 
     <!-- Toast Notification -->
     <div class="toast" id="toast">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
         </svg>
         <span>Prompt kopyalandı!</span>
     </div>
 
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip"></div>
+
     <script src="script.js"></script>
 </body>
+
 </html>
