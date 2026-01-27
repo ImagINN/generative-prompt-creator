@@ -477,8 +477,8 @@ body {
 }
 
 .prompt-form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: var(--spacing-xl);
 }
 
@@ -496,12 +496,8 @@ body {
 ======================================== */
 .option-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: var(--spacing-sm);
-}
-
-.option-grid.cols-4 {
-    grid-template-columns: repeat(4, 1fr);
 }
 
 .option-btn {
@@ -516,9 +512,6 @@ body {
     cursor: pointer;
     transition: var(--transition-normal);
     text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .option-btn:hover {
@@ -820,11 +813,6 @@ body {
 /* ========================================
    Responsive Design
 ======================================== */
-@media (max-width: 1024px) {
-    .option-grid.cols-4 {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
 
 @media (max-width: 768px) {
     .header {
@@ -851,13 +839,10 @@ body {
         font-size: 1rem;
     }
 
-    .prompt-form {
-        grid-template-columns: 1fr;
-    }
 
-    .option-grid,
-    .option-grid.cols-4 {
-        grid-template-columns: repeat(2, 1fr);
+
+    .option-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     }
 
     .upload-section,
@@ -890,9 +875,8 @@ body {
 
 @media (max-width: 480px) {
 
-    .option-grid,
-    .option-grid.cols-4 {
-        grid-template-columns: 1fr 1fr;
+    .option-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     }
 
     .option-btn {
