@@ -730,43 +730,71 @@ async function copyPrompt() {
         .replace(/\]/g, ']');
 
     try {
-        // If we have a master image, copy both text and image
+        // If we have a master image, copy both text and image together
         if (masterImageBlob && navigator.clipboard.write) {
-            const clipboardItems = [];
-
-            // Add text
-            clipboardItems.push(
-                new ClipboardItem({
-                    'text/plain': new Blob([plainPrompt], { type: 'text/plain' })
-                })
-            );
-
-            // Try to add image
             try {
-                // Convert to PNG for better clipboard compatibility
+                // Convert image to PNG for better clipboard compatibility
                 const pngBlob = await convertToPng(masterImageBlob);
+
                 if (pngBlob) {
-                    clipboardItems.push(
-                        new ClipboardItem({
-                            'image/png': pngBlob
-                        })
-                    );
+                    // Create a single ClipboardItem with both text and image
+                    const clipboardItem = new ClipboardItem({
+                        'text/plain': new Blob([plainPrompt], { type: 'text/plain' }),
+                        'image/png': pngBlob
+                    });
+
+                    await navigator.clipboard.write([clipboardItem]);
+                    showToast('Prompt ve görsel kopyalandı!');
+                } else {
+                    // Image conversion failed, copy text only
+                    await navigator.clipboard.writeText(plainPrompt);
+                    showToast('Prompt kopyalandı!');
                 }
             } catch (imgErr) {
-                console.log('Image copy failed, copying text only:', imgErr);
-            }
+                console.log('Image copy failed, trying text only:', imgErr);
+                // Try copying just the image separately if combined fails
+                try {
+                    const pngBlob = await convertToPng(masterImageBlob);
+                    if (pngBlob) {
+                        // Some browsers don't support mixed content, try image only
+                        const imageItem = new ClipboardItem({
+                            'image/png': pngBlob
+                        });
+                        await navigator.clipboard.write([imageItem]);
 
-            await navigator.clipboard.write(clipboardItems);
-            showToast(masterImageBlob ? 'Prompt ve görsel kopyalandı!' : 'Prompt kopyalandı!');
+                        // Also copy text using execCommand as fallback
+                        const textArea = document.createElement('textarea');
+                        textArea.value = plainPrompt;
+                        textArea.style.position = 'fixed';
+                        textArea.style.opacity = '0';
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+
+                        showToast('Görsel kopyalandı! (Metni ayrı yapıştırın)');
+                    } else {
+                        await navigator.clipboard.writeText(plainPrompt);
+                        showToast('Prompt kopyalandı!');
+                    }
+                } catch (fallbackErr) {
+                    console.log('Fallback also failed:', fallbackErr);
+                    await navigator.clipboard.writeText(plainPrompt);
+                    showToast('Prompt kopyalandı!');
+                }
+            }
         } else {
-            // Just copy text
+            // No image, just copy text
             await navigator.clipboard.writeText(plainPrompt);
             showToast('Prompt kopyalandı!');
         }
     } catch (err) {
+        console.error('Copy failed:', err);
         // Fallback for older browsers
         const textArea = document.createElement('textarea');
         textArea.value = plainPrompt;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
         document.body.appendChild(textArea);
         textArea.select();
         document.execCommand('copy');
@@ -779,15 +807,30 @@ async function copyPrompt() {
 async function convertToPng(file) {
     return new Promise((resolve, reject) => {
         const img = new Image();
+
         img.onload = () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            canvas.toBlob(resolve, 'image/png');
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                canvas.toBlob((blob) => {
+                    // Clean up object URL
+                    URL.revokeObjectURL(img.src);
+                    resolve(blob);
+                }, 'image/png');
+            } catch (e) {
+                URL.revokeObjectURL(img.src);
+                reject(e);
+            }
         };
-        img.onerror = reject;
+
+        img.onerror = (e) => {
+            URL.revokeObjectURL(img.src);
+            reject(e);
+        };
+
         img.src = URL.createObjectURL(file);
     });
 }
