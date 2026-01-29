@@ -742,11 +742,36 @@ body {
 /* ========================================
    Footer
 ======================================== */
+
 .footer {
-    text-align: center;
-    padding: var(--spacing-xl);
-    color: var(--text-muted);
+    padding: 40px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.footer-content p {
     font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.footer-links a {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    transition: var(--transition-fast);
+}
+
+.footer-links a:hover {
+    color: var(--accent-primary);
 }
 
 /* ========================================
