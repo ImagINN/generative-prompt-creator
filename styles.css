@@ -214,6 +214,41 @@ body {
     backdrop-filter: blur(10px);
 }
 
+/* Developer Button */
+.developer-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+    transition: var(--transition-normal);
+}
+
+.developer-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: var(--transition-normal);
+}
+
+.developer-btn:hover {
+    background: var(--gradient-primary);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 20px rgba(0, 200, 200, 0.35);
+    transform: translateY(-2px);
+}
+
+.developer-btn:hover svg {
+    color: white;
+}
+
 .badge-dot {
     width: 8px;
     height: 8px;
