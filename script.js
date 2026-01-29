@@ -34,12 +34,19 @@ const selectionGroups = {
     lens: null,
     style: null,
     lighting: null,
-    colorPalette: null
+    colorPalette: null,
+    // Video specific
+    videoDuration: null,
+    cameraMovement: null,
+    motionType: null,
+    videoLoop: null
 };
 
 // Master Image Data
 let masterImageData = null;
+let masterImageBlob = null;
 let currentPrompt = '';
+let isVideoMode = false;
 
 // ========================================
 // Translation Maps
@@ -140,6 +147,42 @@ const translations = {
         'gradient': 'gradient colors, smooth color transitions',
         'duotone': 'duotone effect, two-color scheme',
         'tritone': 'tritone effect, three-color scheme'
+    },
+    // Video specific translations
+    videoDuration: {
+        '3s': '3 second video duration',
+        '5s': '5 second video duration',
+        '8s': '8 second video duration',
+        '10s': '10 second video duration'
+    },
+    cameraMovement: {
+        'static': 'static camera, no movement',
+        'pan-left': 'camera pan left, horizontal movement',
+        'pan-right': 'camera pan right, horizontal movement',
+        'tilt-up': 'camera tilt up, vertical movement',
+        'tilt-down': 'camera tilt down, vertical movement',
+        'zoom-in': 'zoom in, gradual magnification',
+        'zoom-out': 'zoom out, gradual wide view',
+        'dolly-in': 'dolly in, camera moves forward',
+        'dolly-out': 'dolly out, camera moves backward',
+        'orbit': 'orbiting camera, circular movement around subject',
+        'tracking': 'tracking shot, following the subject',
+        'handheld': 'handheld camera, natural shake'
+    },
+    motionType: {
+        'slow-motion': 'slow motion, cinematic slow movement',
+        'normal-speed': 'normal speed, real-time motion',
+        'fast-motion': 'fast motion, accelerated movement',
+        'timelapse': 'timelapse, compressed time',
+        'hyperlapse': 'hyperlapse, moving timelapse',
+        'freeze-frame': 'freeze frame moment',
+        'smooth-flow': 'smooth flowing motion',
+        'cinematic-slow': 'cinematic slow motion, dramatic pace'
+    },
+    videoLoop: {
+        'seamless-loop': 'seamless loop, continuous playback',
+        'boomerang': 'boomerang effect, forward and reverse',
+        'no-loop': 'single playback, no loop'
     }
 };
 
@@ -168,6 +211,7 @@ const roleDescriptions = {
 // Initialize
 // ========================================
 function init() {
+    setupModeToggle();
     setupImageUpload();
     setupOptionButtons();
     setupTooltips();
@@ -177,6 +221,74 @@ function init() {
     sendToGeminiBtn.addEventListener('click', sendToGemini);
 
     updatePrompt();
+}
+
+// ========================================
+// Mode Toggle (Image/Video)
+// ========================================
+function setupModeToggle() {
+    const modeToggle = document.getElementById('modeToggle');
+    const videoOptions = document.getElementById('videoOptions');
+    const imageLabel = document.querySelector('.mode-label[data-mode="image"]');
+    const videoLabel = document.querySelector('.mode-label[data-mode="video"]');
+    const btnText = document.getElementById('btnText');
+    const actionHint = document.querySelector('.action-hint');
+
+    // Set initial state
+    imageLabel.classList.add('active');
+
+    modeToggle.addEventListener('change', () => {
+        isVideoMode = modeToggle.checked;
+
+        if (isVideoMode) {
+            videoOptions.classList.add('visible');
+            imageLabel.classList.remove('active');
+            videoLabel.classList.add('active');
+            btnText.textContent = "Gemini'ye Gönder (Video)";
+            actionHint.innerHTML = '🎬 Video üretim ayarları ile Gemini\'a yönlendirileceksiniz.';
+        } else {
+            videoOptions.classList.remove('visible');
+            imageLabel.classList.add('active');
+            videoLabel.classList.remove('active');
+            btnText.textContent = "Gemini'ye Gönder";
+            actionHint.innerHTML = '🖼️ Görsel üretim ayarları ile Gemini\'a yönlendirileceksiniz.';
+
+            // Clear video selections when switching to image mode
+            clearVideoSelections();
+        }
+
+        updatePrompt();
+    });
+
+    // Allow clicking on labels to toggle
+    imageLabel.addEventListener('click', () => {
+        if (modeToggle.checked) {
+            modeToggle.checked = false;
+            modeToggle.dispatchEvent(new Event('change'));
+        }
+    });
+
+    videoLabel.addEventListener('click', () => {
+        if (!modeToggle.checked) {
+            modeToggle.checked = true;
+            modeToggle.dispatchEvent(new Event('change'));
+        }
+    });
+}
+
+function clearVideoSelections() {
+    selectionGroups.videoDuration = null;
+    selectionGroups.cameraMovement = null;
+    selectionGroups.motionType = null;
+    selectionGroups.videoLoop = null;
+
+    // Remove selected class from video option buttons
+    const videoOptionsContainer = document.getElementById('videoOptions');
+    if (videoOptionsContainer) {
+        videoOptionsContainer.querySelectorAll('.option-btn.selected').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+    }
 }
 
 // ========================================
@@ -230,6 +342,9 @@ function handleImageFile(file) {
         return;
     }
 
+    // Store the blob for clipboard copy
+    masterImageBlob = file;
+
     const reader = new FileReader();
     reader.onload = (e) => {
         masterImageData = e.target.result;
@@ -242,6 +357,7 @@ function handleImageFile(file) {
 
 function removeImage() {
     masterImageData = null;
+    masterImageBlob = null;
     previewImg.src = '';
     masterImageInput.value = '';
     uploadArea.classList.remove('has-image');
@@ -373,12 +489,13 @@ function generatePrompt() {
 
     // Build the structured prompt
     const promptParts = [];
+    const mediaType = isVideoMode ? 'video' : 'görsel';
 
     // === ROL & BAĞLAM ===
     const selectedStyle = selectionGroups.style;
     const role = roleDescriptions[selectedStyle] || roleDescriptions.default;
     promptParts.push(`**[ROL & BAĞLAM]**`);
-    promptParts.push(`Sen ${role}sın. Amacımız profesyonel, yüksek kaliteli bir görsel oluşturmak.`);
+    promptParts.push(`Sen ${role}sın. Amacımız profesyonel, yüksek kaliteli bir ${mediaType} oluşturmak.`);
     promptParts.push('');
 
     // === SAHNE PLANI & MANTIK ===
@@ -471,6 +588,30 @@ function generatePrompt() {
         promptParts.push('');
     }
 
+    // === VIDEO SPESİFİK DETAYLAR ===
+    if (isVideoMode) {
+        const videoDetails = [];
+
+        if (selectionGroups.videoDuration) {
+            videoDetails.push(`**Süre:** ${translations.videoDuration[selectionGroups.videoDuration]}`);
+        }
+        if (selectionGroups.cameraMovement) {
+            videoDetails.push(`**Kamera Hareketi:** ${translations.cameraMovement[selectionGroups.cameraMovement]}`);
+        }
+        if (selectionGroups.motionType) {
+            videoDetails.push(`**Hareket Tipi:** ${translations.motionType[selectionGroups.motionType]}`);
+        }
+        if (selectionGroups.videoLoop) {
+            videoDetails.push(`**Döngü:** ${translations.videoLoop[selectionGroups.videoLoop]}`);
+        }
+
+        if (videoDetails.length > 0) {
+            promptParts.push(`**[VİDEO DETAYLARI]**`);
+            promptParts.push(videoDetails.join('\n'));
+            promptParts.push('');
+        }
+    }
+
     return promptParts.join('\n').trim();
 }
 
@@ -483,8 +624,12 @@ function generateSimplePrompt() {
 
     const parts = [];
 
-    // Add prefix for image generation
-    parts.push('Generate an image:');
+    // Add prefix based on mode
+    if (isVideoMode) {
+        parts.push('Generate a video:');
+    } else {
+        parts.push('Generate an image:');
+    }
 
     // Subject
     if (subject) {
@@ -517,6 +662,22 @@ function generateSimplePrompt() {
     }
     if (selectionGroups.aspectRatio) {
         parts.push(translations.aspectRatio[selectionGroups.aspectRatio]);
+    }
+
+    // Video specific options
+    if (isVideoMode) {
+        if (selectionGroups.videoDuration) {
+            parts.push(translations.videoDuration[selectionGroups.videoDuration]);
+        }
+        if (selectionGroups.cameraMovement) {
+            parts.push(translations.cameraMovement[selectionGroups.cameraMovement]);
+        }
+        if (selectionGroups.motionType) {
+            parts.push(translations.motionType[selectionGroups.motionType]);
+        }
+        if (selectionGroups.videoLoop) {
+            parts.push(translations.videoLoop[selectionGroups.videoLoop]);
+        }
     }
 
     // Typography
@@ -557,7 +718,7 @@ function updatePrompt() {
 }
 
 // ========================================
-// Copy Prompt
+// Copy Prompt (with image if available)
 // ========================================
 async function copyPrompt() {
     if (!currentPrompt) return;
@@ -569,8 +730,39 @@ async function copyPrompt() {
         .replace(/\]/g, ']');
 
     try {
-        await navigator.clipboard.writeText(plainPrompt);
-        showToast();
+        // If we have a master image, copy both text and image
+        if (masterImageBlob && navigator.clipboard.write) {
+            const clipboardItems = [];
+
+            // Add text
+            clipboardItems.push(
+                new ClipboardItem({
+                    'text/plain': new Blob([plainPrompt], { type: 'text/plain' })
+                })
+            );
+
+            // Try to add image
+            try {
+                // Convert to PNG for better clipboard compatibility
+                const pngBlob = await convertToPng(masterImageBlob);
+                if (pngBlob) {
+                    clipboardItems.push(
+                        new ClipboardItem({
+                            'image/png': pngBlob
+                        })
+                    );
+                }
+            } catch (imgErr) {
+                console.log('Image copy failed, copying text only:', imgErr);
+            }
+
+            await navigator.clipboard.write(clipboardItems);
+            showToast(masterImageBlob ? 'Prompt ve görsel kopyalandı!' : 'Prompt kopyalandı!');
+        } else {
+            // Just copy text
+            await navigator.clipboard.writeText(plainPrompt);
+            showToast('Prompt kopyalandı!');
+        }
     } catch (err) {
         // Fallback for older browsers
         const textArea = document.createElement('textarea');
@@ -579,17 +771,42 @@ async function copyPrompt() {
         textArea.select();
         document.execCommand('copy');
         document.body.removeChild(textArea);
-        showToast();
+        showToast('Prompt kopyalandı!');
     }
+}
+
+// Helper function to convert image to PNG blob
+async function convertToPng(file) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            canvas.toBlob(resolve, 'image/png');
+        };
+        img.onerror = reject;
+        img.src = URL.createObjectURL(file);
+    });
 }
 
 // ========================================
 // Show Toast
 // ========================================
-function showToast() {
+function showToast(message) {
+    const toastText = toast.querySelector('span');
+    if (toastText && message) {
+        toastText.textContent = message;
+    }
     toast.classList.add('show');
     setTimeout(() => {
         toast.classList.remove('show');
+        // Reset to default message
+        if (toastText) {
+            toastText.textContent = 'Prompt kopyalandı!';
+        }
     }, 2500);
 }
 
