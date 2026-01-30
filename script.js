@@ -6,12 +6,6 @@
 // ========================================
 // DOM Elements
 // ========================================
-const uploadArea = document.getElementById('uploadArea');
-const masterImageInput = document.getElementById('masterImage');
-const uploadContent = document.getElementById('uploadContent');
-const imagePreview = document.getElementById('imagePreview');
-const previewImg = document.getElementById('previewImg');
-const removeImageBtn = document.getElementById('removeImage');
 const promptPreview = document.getElementById('promptPreview');
 const copyBtn = document.getElementById('copyBtn');
 const sendToGeminiBtn = document.getElementById('sendToGemini');
@@ -42,9 +36,6 @@ const selectionGroups = {
     videoLoop: null
 };
 
-// Master Image Data
-let masterImageData = null;
-let masterImageBlob = null;
 let currentPrompt = '';
 let isVideoMode = false;
 
@@ -212,7 +203,6 @@ const roleDescriptions = {
 // ========================================
 function init() {
     setupModeToggle();
-    setupImageUpload();
     setupOptionButtons();
     setupTooltips();
     setupFormListeners();
@@ -289,79 +279,6 @@ function clearVideoSelections() {
             btn.classList.remove('selected');
         });
     }
-}
-
-// ========================================
-// Image Upload Handling
-// ========================================
-function setupImageUpload() {
-    // Drag and drop
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('drag-over');
-    });
-
-    uploadArea.addEventListener('dragleave', () => {
-        uploadArea.classList.remove('drag-over');
-    });
-
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('drag-over');
-
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            handleImageFile(files[0]);
-        }
-    });
-
-    // File input change
-    masterImageInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            handleImageFile(e.target.files[0]);
-        }
-    });
-
-    // Remove image
-    removeImageBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        removeImage();
-    });
-}
-
-function handleImageFile(file) {
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-        alert('Lütfen bir görsel dosyası seçin.');
-        return;
-    }
-
-    // Validate file size (10MB max)
-    if (file.size > 10 * 1024 * 1024) {
-        alert('Dosya boyutu 10MB\'dan küçük olmalıdır.');
-        return;
-    }
-
-    // Store the blob for clipboard copy
-    masterImageBlob = file;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        masterImageData = e.target.result;
-        previewImg.src = masterImageData;
-        uploadArea.classList.add('has-image');
-        updatePrompt();
-    };
-    reader.readAsDataURL(file);
-}
-
-function removeImage() {
-    masterImageData = null;
-    masterImageBlob = null;
-    previewImg.src = '';
-    masterImageInput.value = '';
-    uploadArea.classList.remove('has-image');
-    updatePrompt();
 }
 
 // ========================================
@@ -483,7 +400,7 @@ function generatePrompt() {
     const hasSelections = Object.values(selectionGroups).some(v => v !== null);
     const hasTextInputs = subject || environment || typography || manualCommands;
 
-    if (!hasSelections && !hasTextInputs && !masterImageData) {
+    if (!hasSelections && !hasTextInputs) {
         return '';
     }
 
@@ -499,7 +416,7 @@ function generatePrompt() {
     promptParts.push('');
 
     // === SAHNE PLANI & MANTIK ===
-    if (selectionGroups.lighting || selectionGroups.colorPalette || masterImageData) {
+    if (selectionGroups.lighting || selectionGroups.colorPalette) {
         promptParts.push(`**[SAHNE PLANI & MANTIK (Blueprint)]**`);
         let blueprintText = 'Görseli oluşturmadan önce şu mantığı kur: ';
 
@@ -509,9 +426,6 @@ function generatePrompt() {
         }
         if (selectionGroups.colorPalette) {
             blueprintDetails.push(`Renk paleti ${translations.colorPalette[selectionGroups.colorPalette]} olarak uygulanmalı`);
-        }
-        if (masterImageData) {
-            blueprintDetails.push('Referans görselindeki kompozisyon ve atmosfer dikkate alınmalı');
         }
 
         blueprintText += blueprintDetails.join('. ') + '.';
@@ -581,12 +495,6 @@ function generatePrompt() {
         promptParts.push('');
     }
 
-    // === MASTER GÖRSEL REFERANSI ===
-    if (masterImageData) {
-        promptParts.push(`**[REFERANS]**`);
-        promptParts.push('Yüklenen referans görseline benzer bir atmosfer ve kompozisyon kullanılmalı.');
-        promptParts.push('');
-    }
 
     // === VIDEO SPESİFİK DETAYLAR ===
     if (isVideoMode) {
@@ -718,7 +626,7 @@ function updatePrompt() {
 }
 
 // ========================================
-// Copy Prompt (with image if available)
+// Copy Prompt
 // ========================================
 async function copyPrompt() {
     if (!currentPrompt) return;
@@ -730,64 +638,8 @@ async function copyPrompt() {
         .replace(/\]/g, ']');
 
     try {
-        // If we have a master image, copy both text and image together
-        if (masterImageBlob && navigator.clipboard.write) {
-            try {
-                // Convert image to PNG for better clipboard compatibility
-                const pngBlob = await convertToPng(masterImageBlob);
-
-                if (pngBlob) {
-                    // Create a single ClipboardItem with both text and image
-                    const clipboardItem = new ClipboardItem({
-                        'text/plain': new Blob([plainPrompt], { type: 'text/plain' }),
-                        'image/png': pngBlob
-                    });
-
-                    await navigator.clipboard.write([clipboardItem]);
-                    showToast('Prompt ve görsel kopyalandı!');
-                } else {
-                    // Image conversion failed, copy text only
-                    await navigator.clipboard.writeText(plainPrompt);
-                    showToast('Prompt kopyalandı!');
-                }
-            } catch (imgErr) {
-                console.log('Image copy failed, trying text only:', imgErr);
-                // Try copying just the image separately if combined fails
-                try {
-                    const pngBlob = await convertToPng(masterImageBlob);
-                    if (pngBlob) {
-                        // Some browsers don't support mixed content, try image only
-                        const imageItem = new ClipboardItem({
-                            'image/png': pngBlob
-                        });
-                        await navigator.clipboard.write([imageItem]);
-
-                        // Also copy text using execCommand as fallback
-                        const textArea = document.createElement('textarea');
-                        textArea.value = plainPrompt;
-                        textArea.style.position = 'fixed';
-                        textArea.style.opacity = '0';
-                        document.body.appendChild(textArea);
-                        textArea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(textArea);
-
-                        showToast('Görsel kopyalandı! (Metni ayrı yapıştırın)');
-                    } else {
-                        await navigator.clipboard.writeText(plainPrompt);
-                        showToast('Prompt kopyalandı!');
-                    }
-                } catch (fallbackErr) {
-                    console.log('Fallback also failed:', fallbackErr);
-                    await navigator.clipboard.writeText(plainPrompt);
-                    showToast('Prompt kopyalandı!');
-                }
-            }
-        } else {
-            // No image, just copy text
-            await navigator.clipboard.writeText(plainPrompt);
-            showToast('Prompt kopyalandı!');
-        }
+        await navigator.clipboard.writeText(plainPrompt);
+        showToast('Prompt kopyalandı!');
     } catch (err) {
         console.error('Copy failed:', err);
         // Fallback for older browsers
@@ -801,38 +653,6 @@ async function copyPrompt() {
         document.body.removeChild(textArea);
         showToast('Prompt kopyalandı!');
     }
-}
-
-// Helper function to convert image to PNG blob
-async function convertToPng(file) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-
-        img.onload = () => {
-            try {
-                const canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
-                canvas.toBlob((blob) => {
-                    // Clean up object URL
-                    URL.revokeObjectURL(img.src);
-                    resolve(blob);
-                }, 'image/png');
-            } catch (e) {
-                URL.revokeObjectURL(img.src);
-                reject(e);
-            }
-        };
-
-        img.onerror = (e) => {
-            URL.revokeObjectURL(img.src);
-            reject(e);
-        };
-
-        img.src = URL.createObjectURL(file);
-    });
 }
 
 // ========================================
